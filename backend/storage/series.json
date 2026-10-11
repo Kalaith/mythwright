@@ -1,0 +1,135 @@
+[
+    {
+        "id": "series-sample-1",
+        "title": "The Digital Realms",
+        "description": "A fantasy adventure set across virtual worlds",
+        "genre": "Fantasy",
+        "tags": [
+            "fantasy",
+            "virtual reality",
+            "adventure"
+        ],
+        "status": "active",
+        "target_books": 5,
+        "author_notes": "Main series focusing on character progression",
+        "shared_elements": {
+            "characters": [],
+            "worldBuilding": {
+                "timeline": [],
+                "worldRules": [],
+                "cultures": [],
+                "languages": [],
+                "religions": [],
+                "economics": []
+            },
+            "magicSystems": [],
+            "locations": [],
+            "factions": [],
+            "terminology": []
+        },
+        "created_at": "2024-01-15 10:30:00",
+        "updated_at": "2024-01-15 10:30:00"
+    },
+    {
+        "title": "Test Series",
+        "description": "A test series created via API",
+        "genre": "Fantasy",
+        "tags": [],
+        "status": "planning",
+        "target_books": null,
+        "author_notes": "",
+        "shared_elements": [],
+        "id": "series-68c9497ce2d64",
+        "created_at": "2025-09-16 11:26:52",
+        "updated_at": "2025-09-16 11:26:52"
+    },
+    {
+        "title": "Chronicles of the Virtual Empire",
+        "description": "An epic fantasy series following players in a massive virtual world where game mechanics blend with reality",
+        "genre": "Fantasy",
+        "tags": [
+            "virtual reality",
+            "empire building",
+            "progression fantasy",
+            "mmorpg"
+        ],
+        "status": "active",
+        "target_books": 7,
+        "author_notes": "Main storyline focusing on empire management and character progression through virtual realms",
+        "shared_elements": [],
+        "id": "series-68ca041a9e477",
+        "created_at": "2025-09-17 00:43:06",
+        "updated_at": "2025-09-17 00:43:06"
+    },
+    {
+        "title": "Dungeon Architect Academy",
+        "description": "A fantasy adventure about students learning to design and manage magical dungeons",
+        "genre": "Fantasy",
+        "tags": [
+            "dungeon building",
+            "academy",
+            "magic systems",
+            "crafting"
+        ],
+        "status": "planning",
+        "target_books": 5,
+        "author_notes": "Focus on world-building mechanics and educational progression systems",
+        "shared_elements": [],
+        "id": "series-68ca04232fecf",
+        "created_at": "2025-09-17 00:43:15",
+        "updated_at": "2025-09-17 00:43:15"
+    },
+    {
+        "title": "Spell Forge Chronicles",
+        "description": "A crafting-focused fantasy series where magical items and spells are created through complex recipes and resource management",
+        "genre": "Fantasy",
+        "tags": [
+            "crafting",
+            "magic",
+            "resource management",
+            "progression"
+        ],
+        "status": "active",
+        "target_books": 4,
+        "author_notes": "Focus on detailed crafting systems and magical theory",
+        "shared_elements": [],
+        "id": "series-68ca046d0b37c",
+        "created_at": "2025-09-17 00:44:29",
+        "updated_at": "2025-09-17 00:44:29"
+    },
+    {
+        "title": "Guild Master Ascension",
+        "description": "A political and strategic fantasy series following the rise of a guild leader through complex alliance systems and large-scale battles",
+        "genre": "Fantasy",
+        "tags": [
+            "guild management",
+            "politics",
+            "strategy",
+            "leadership"
+        ],
+        "status": "planning",
+        "target_books": 6,
+        "author_notes": "Focus on social dynamics, leadership challenges, and large-scale conflict resolution",
+        "shared_elements": [],
+        "id": "series-68ca04765c3dd",
+        "created_at": "2025-09-17 00:44:38",
+        "updated_at": "2025-09-17 00:44:38"
+    },
+    {
+        "title": "Database Test Series",
+        "description": "A test series to verify database functionality after initialization",
+        "genre": "Fantasy",
+        "tags": [
+            "database",
+            "testing",
+            "verification"
+        ],
+        "status": "active",
+        "target_books": 3,
+        "author_notes": "Created after database initialization to verify functionality",
+        "shared_elements": [],
+        "id": "series-68ca06939dbf5",
+        "created_at": "2025-09-17 00:53:39",
+        "updated_at": "2025-09-17 00:53:39"
+    }
+]

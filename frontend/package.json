@@ -1,0 +1,23 @@
+{
+  "name": "@webhatchery/app-mythwright-frontend",
+  "version": "0.0.1",
+  "description": "Fantasy progression-world workshop",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "ci": "npm run lint && npm run type-check && npm run format:check && npm run test:run && npm run build",
+    "ci:quick": "npm run lint && npm run type-check && npm run format:check"
+  }
+}

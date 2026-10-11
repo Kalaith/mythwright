@@ -1,0 +1,292 @@
+-- Writers Studio Database Schema
+
+-- Series table
+CREATE TABLE IF NOT EXISTS series (
+    id VARCHAR(255) PRIMARY KEY,
+    owner_user_id VARCHAR(255) NOT NULL,
+    title VARCHAR(500) NOT NULL,
+    description TEXT,
+    genre VARCHAR(100),
+    tags JSON,
+    status VARCHAR(50) DEFAULT 'planning',
+    target_books INT,
+    author_notes TEXT,
+    shared_elements JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Books table
+CREATE TABLE IF NOT EXISTS books (
+    id VARCHAR(255) PRIMARY KEY,
+    owner_user_id VARCHAR(255) NOT NULL,
+    series_id VARCHAR(255),
+    title VARCHAR(500) NOT NULL,
+    description TEXT,
+    book_number INT NOT NULL,
+    status VARCHAR(50) DEFAULT 'planning',
+    target_word_count INT,
+    current_word_count INT DEFAULT 0,
+    synopsis TEXT,
+    outline TEXT,
+    character_arcs JSON,
+    plot_threads JSON,
+    timeline_events JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE CASCADE
+);
+
+-- Characters table
+CREATE TABLE IF NOT EXISTS characters (
+    id VARCHAR(255) PRIMARY KEY,
+    owner_user_id VARCHAR(255) NOT NULL,
+    series_id VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    race VARCHAR(100),
+    class VARCHAR(100),
+    background TEXT,
+    personality TEXT,
+    appearance TEXT,
+    stats JSON,
+    skills JSON,
+    inventory JSON,
+    equipment JSON,
+    status_effects JSON,
+    level_progression JSON,
+    relationships JSON,
+    backstory TEXT,
+    motivations TEXT,
+    flaws TEXT,
+    story_references JSON,
+    cross_references JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE SET NULL
+);
+
+-- Stories table
+CREATE TABLE IF NOT EXISTS stories (
+    id VARCHAR(255) PRIMARY KEY,
+    owner_user_id VARCHAR(255) NOT NULL,
+    series_id VARCHAR(255),
+    book_id VARCHAR(255),
+    title VARCHAR(500) NOT NULL,
+    description TEXT,
+    genre VARCHAR(100),
+    tags JSON,
+    status VARCHAR(50) DEFAULT 'draft',
+    word_count INT DEFAULT 0,
+    target_word_count INT,
+    summary TEXT,
+    outline TEXT,
+    setting TEXT,
+    themes TEXT,
+    plot_points JSON,
+    character_roles JSON,
+    story_events JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE SET NULL,
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE SET NULL
+);
+
+-- Items table
+CREATE TABLE IF NOT EXISTS items (
+    id VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    type VARCHAR(50) NOT NULL,
+    sub_type VARCHAR(100),
+    rarity VARCHAR(50) DEFAULT 'common',
+    level INT DEFAULT 1,
+    value INT DEFAULT 0,
+    weight DECIMAL(10,2),
+    durability JSON,
+    stats JSON,
+    effects JSON,
+    requirements JSON,
+    set_bonus JSON,
+    enchantments JSON,
+    stackable BOOLEAN DEFAULT 0,
+    max_stack INT,
+    sellable BOOLEAN DEFAULT 1,
+    tradeable BOOLEAN DEFAULT 1,
+    icon VARCHAR(255),
+    image TEXT,
+    lore TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Research Collections table
+CREATE TABLE IF NOT EXISTS research_collections (
+    id VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    category VARCHAR(100) DEFAULT 'general',
+    sources JSON,
+    tags JSON,
+    color VARCHAR(20) DEFAULT '#3B82F6',
+    icon VARCHAR(255),
+    visibility VARCHAR(20) DEFAULT 'private',
+    collaborators JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Research Sources table
+CREATE TABLE IF NOT EXISTS research_sources (
+    id VARCHAR(255) PRIMARY KEY,
+    title VARCHAR(500) NOT NULL,
+    type VARCHAR(50) DEFAULT 'article',
+    content JSON,
+    metadata JSON,
+    annotations JSON,
+    links JSON,
+    citations JSON,
+    attachments JSON,
+    tags JSON,
+    collections JSON,
+    favorited BOOLEAN DEFAULT 0,
+    archived BOOLEAN DEFAULT 0,
+    last_accessed DATETIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Chapters table
+CREATE TABLE IF NOT EXISTS chapters (
+    id VARCHAR(255) PRIMARY KEY,
+    owner_user_id VARCHAR(255) NOT NULL,
+    story_id VARCHAR(255) NOT NULL,
+    title VARCHAR(500) NOT NULL,
+    chapter_number INT NOT NULL,
+    content LONGTEXT,
+    word_count INT DEFAULT 0,
+    status VARCHAR(50) DEFAULT 'draft',
+    summary TEXT,
+    notes TEXT,
+    character_progression JSON,
+    story_events JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE CASCADE
+);
+
+-- Character Templates table
+CREATE TABLE IF NOT EXISTS character_templates (
+    id VARCHAR(255) PRIMARY KEY,
+    owner_user_id VARCHAR(255) NOT NULL,
+    character_id VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    template_data JSON,
+    is_public BOOLEAN DEFAULT 0,
+    usage_count INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE SET NULL
+);
+
+-- Story Templates table
+CREATE TABLE IF NOT EXISTS story_templates (
+    id VARCHAR(255) PRIMARY KEY,
+    owner_user_id VARCHAR(255) NOT NULL,
+    story_id VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    template_data JSON,
+    is_public BOOLEAN DEFAULT 0,
+    usage_count INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE SET NULL
+);
+
+-- Writing Sessions table
+CREATE TABLE IF NOT EXISTS writing_sessions (
+    id VARCHAR(255) PRIMARY KEY,
+    story_id VARCHAR(255),
+    chapter_id VARCHAR(255),
+    start_time DATETIME NOT NULL,
+    end_time DATETIME,
+    word_target INT DEFAULT 500,
+    initial_word_count INT DEFAULT 0,
+    final_word_count INT DEFAULT 0,
+    words_written INT DEFAULT 0,
+    duration INT DEFAULT 0,
+    date DATE NOT NULL,
+    is_active BOOLEAN DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE SET NULL,
+    FOREIGN KEY (chapter_id) REFERENCES chapters(id) ON DELETE SET NULL,
+    INDEX idx_date (date),
+    INDEX idx_story_id (story_id),
+    INDEX idx_active (is_active)
+);
+
+-- Writing Goals table
+CREATE TABLE IF NOT EXISTS writing_goals (
+    id VARCHAR(255) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    type ENUM('daily', 'weekly', 'monthly', 'custom', 'story', 'book') NOT NULL,
+    target INT NOT NULL,
+    current INT DEFAULT 0,
+    start_date DATE,
+    deadline DATE,
+    is_active BOOLEAN DEFAULT 1,
+    completed_at DATETIME,
+    story_id VARCHAR(255),
+    book_id VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE SET NULL,
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE SET NULL,
+    INDEX idx_active (is_active),
+    INDEX idx_type (type),
+    INDEX idx_deadline (deadline)
+);
+
+-- Series Analytics table
+CREATE TABLE IF NOT EXISTS series_analytics (
+    id VARCHAR(255) PRIMARY KEY,
+    series_id VARCHAR(255) NOT NULL,
+    total_word_count INT DEFAULT 0,
+    average_book_length DECIMAL(10,2) DEFAULT 0,
+    completion_rate DECIMAL(5,2) DEFAULT 0,
+    character_count INT DEFAULT 0,
+    location_count INT DEFAULT 0,
+    plot_thread_count INT DEFAULT 0,
+    consistency_score DECIMAL(5,2) DEFAULT 0,
+    readability_score DECIMAL(5,2) DEFAULT 0,
+    pacing_data JSON,
+    character_development_data JSON,
+    world_building_depth JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE CASCADE
+);
+
+-- Create indexes for better performance
+CREATE INDEX idx_books_series_id ON books(series_id);
+CREATE INDEX idx_books_book_number ON books(series_id, book_number);
+CREATE INDEX idx_characters_series_id ON characters(series_id);
+CREATE INDEX idx_stories_series_id ON stories(series_id);
+CREATE INDEX idx_stories_book_id ON stories(book_id);
+CREATE INDEX idx_chapters_story_id ON chapters(story_id);
+CREATE INDEX idx_chapters_number ON chapters(story_id, chapter_number);
+CREATE INDEX idx_analytics_series_id ON series_analytics(series_id);
+CREATE INDEX idx_items_type ON items(type);
+CREATE INDEX idx_items_rarity ON items(rarity);
+CREATE INDEX idx_research_sources_type ON research_sources(type);
+CREATE INDEX idx_research_sources_archived ON research_sources(archived);
+CREATE INDEX idx_series_owner_user_id ON series(owner_user_id);
+CREATE INDEX idx_books_owner_user_id ON books(owner_user_id);
+CREATE INDEX idx_characters_owner_user_id ON characters(owner_user_id);
+CREATE INDEX idx_stories_owner_user_id ON stories(owner_user_id);
+CREATE INDEX idx_chapters_owner_user_id ON chapters(owner_user_id);
+CREATE INDEX idx_character_templates_owner_user_id ON character_templates(owner_user_id);
+CREATE INDEX idx_story_templates_owner_user_id ON story_templates(owner_user_id);

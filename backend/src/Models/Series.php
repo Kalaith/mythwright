@@ -1,0 +1,87 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use App\Models\Concerns\EnforcesTenantOwnership;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Series extends Model
+{
+    use EnforcesTenantOwnership;
+
+    protected $table = 'series';
+
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    protected $fillable = [
+        'id',
+        'title',
+        'description',
+        'genre',
+        'tags',
+        'status',
+        'target_books',
+        'author_notes',
+        'shared_elements'
+    ];
+
+    protected $casts = [
+        'tags' => 'array',
+        'shared_elements' => 'array',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
+
+    public function books(): HasMany
+    {
+        return $this->hasMany(Book::class)->orderBy('book_number');
+    }
+
+    public function characters(): HasMany
+    {
+        return $this->hasMany(Character::class);
+    }
+
+    public function stories(): HasMany
+    {
+        return $this->hasMany(Story::class);
+    }
+
+    public function analytics(): HasMany
+    {
+        return $this->hasMany(SeriesAnalytics::class);
+    }
+
+    public function getSharedElementsAttribute($value): array
+    {
+        $decoded = json_decode($value, true);
+        return $decoded ?? [
+            'characters' => [],
+            'worldBuilding' => [
+                'timeline' => [],
+                'worldRules' => [],
+                'cultures' => [],
+                'languages' => [],
+                'religions' => [],
+                'economics' => []
+            ],
+            'magicSystems' => [],
+            'locations' => [],
+            'factions' => [],
+            'terminology' => [],
+            'canon_vault' => [
+                'entries' => [],
+                'custom_entry_types' => []
+            ]
+        ];
+    }
+
+    public function setSharedElementsAttribute($value): void
+    {
+        $this->attributes['shared_elements'] = json_encode($value);
+    }
+}

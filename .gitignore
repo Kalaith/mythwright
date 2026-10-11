@@ -1,0 +1,48 @@
+# Logs
+mcp
+.env
+backend/.env.preview
+frontend/.env.production
+
+# Dependencies
+node_modules/
+backend/vendor/
+frontend/dist/
+
+# Environment files
+*.env
+*.env.local
+*.env.production
+*.env.staging
+
+# Build outputs
+frontend/dist/
+frontend/eslint-report.json
+frontend/*.tsbuildinfo
+backend/storage/logs/
+backend/storage/cache/
+
+# Development files
+backend/.phpunit.cache/
+backend/docs/
+backend/server.log
+*.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Deployment artifacts
+backend/DEPLOYMENT_SUMMARY.md
+frontend/.env.preview
+
+# Keep documented env examples in source control.
+!.env.example
+!backend/.env.example
+!frontend/.env.example
